@@ -1,0 +1,51 @@
+{"level":"info","message":"Cron Scheduler Initialized","service":"GramDairy","timestamp":"2026-04-20 12:26:33"}
+{"level":"info","message":"[PROCESS] Server started on port 5000 in development mode","service":"GramDairy","timestamp":"2026-04-20 12:26:33"}
+{"level":"info","message":"[DB] MongoDB connected → cluster0-shard-00-00.wsnda.mongodb.net","service":"GramDairy","timestamp":"2026-04-20 12:26:34"}
+{"level":"http","message":"GET /api/v1/billing/my-bills 401 54 - 2.519","service":"GramDairy","timestamp":"2026-04-20 12:26:43"}
+{"level":"http","message":"GET /api/v1/settings 200 431 - 82.034","service":"GramDairy","timestamp":"2026-04-20 12:26:43"}
+{"level":"info","message":"[SOCKET] Client connected   → QFITYczNFmBakT-CAAAB","service":"GramDairy","timestamp":"2026-04-20 12:26:43"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 89.748","service":"GramDairy","timestamp":"2026-04-20 12:27:43"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 66.379","service":"GramDairy","timestamp":"2026-04-20 12:28:43"}
+{"level":"http","message":"GET /api/v1/stores 200 531 - 64.460","service":"GramDairy","timestamp":"2026-04-20 12:29:16"}
+{"level":"info","message":"[SOCKET] Client disconnected ← QFITYczNFmBakT-CAAAB (reason: transport close)","service":"GramDairy","timestamp":"2026-04-20 12:29:33"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 75.247","service":"GramDairy","timestamp":"2026-04-20 12:29:33"}
+{"level":"info","message":"[SOCKET] Client connected   → qzkPtxGxvR4nku9sAAAD","service":"GramDairy","timestamp":"2026-04-20 12:29:34"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 72.224","service":"GramDairy","timestamp":"2026-04-20 12:30:33"}
+{"level":"http","message":"OPTIONS /api/v1/auth/login 204 0 - 0.353","service":"GramDairy","timestamp":"2026-04-20 12:30:36"}
+{"level":"http","message":"POST /api/v1/auth/login 200 4226 - 643.877","service":"GramDairy","timestamp":"2026-04-20 12:30:36"}
+{"level":"http","message":"GET /api/v1/notifications 200 636 - 100.816","service":"GramDairy","timestamp":"2026-04-20 12:30:36"}
+{"level":"http","message":"GET /api/v1/admin/stats 200 147 - 339.152","service":"GramDairy","timestamp":"2026-04-20 12:30:37"}
+{"level":"http","message":"GET /api/v1/orders 200 146443 - 296.224","service":"GramDairy","timestamp":"2026-04-20 12:30:42"}
+{"level":"http","message":"GET /api/v1/categories 200 698 - 102.312","service":"GramDairy","timestamp":"2026-04-20 12:30:42"}
+{"level":"http","message":"GET /api/v1/products?search=&limit=100 200 908 - 164.873","service":"GramDairy","timestamp":"2026-04-20 12:30:43"}
+{"level":"info","message":"[SOCKET] Client disconnected ← qzkPtxGxvR4nku9sAAAD (reason: transport close)","service":"GramDairy","timestamp":"2026-04-20 12:31:50"}
+{"level":"info","message":"[SOCKET] Client connected   → 30HqVTAGHsOptnqkAAAF","service":"GramDairy","timestamp":"2026-04-20 12:31:50"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 57.636","service":"GramDairy","timestamp":"2026-04-20 12:31:50"}
+{"level":"http","message":"GET /api/v1/billing/my-bills 200 71 - 106.110","service":"GramDairy","timestamp":"2026-04-20 12:31:50"}
+{"level":"http","message":"GET /api/v1/categories 304 - - 53.746","service":"GramDairy","timestamp":"2026-04-20 12:32:01"}
+{"level":"http","message":"GET /api/v1/products?category=&minPrice=&maxPrice=&sort=newest&page=1&search= 200 908 - 144.225","service":"GramDairy","timestamp":"2026-04-20 12:32:01"}
+{"level":"http","message":"OPTIONS /api/v1/auth/login 204 0 - 0.217","service":"GramDairy","timestamp":"2026-04-20 12:41:36"}
+{"level":"http","message":"POST /api/v1/auth/login 200 4226 - 789.528","service":"GramDairy","timestamp":"2026-04-20 12:41:36"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 164.523","service":"GramDairy","timestamp":"2026-04-20 12:41:37"}
+{"level":"http","message":"GET /api/v1/notifications 304 - - 225.333","service":"GramDairy","timestamp":"2026-04-20 12:41:37"}
+{"level":"http","message":"GET /api/v1/admin/stats 304 - - 495.224","service":"GramDairy","timestamp":"2026-04-20 12:41:37"}
+{"level":"http","message":"GET /api/v1/categories 304 - - 69.510","service":"GramDairy","timestamp":"2026-04-20 12:41:38"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 149.935","service":"GramDairy","timestamp":"2026-04-20 12:42:37"}
+{"level":"http","message":"POST /api/v1/categories 201 627 - 12893.054","service":"GramDairy","timestamp":"2026-04-20 12:43:01"}
+{"level":"http","message":"GET /api/v1/categories 200 1243 - 311.373","service":"GramDairy","timestamp":"2026-04-20 12:43:01"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 310.084","service":"GramDairy","timestamp":"2026-04-20 12:43:01"}
+{"level":"http","message":"GET /api/v1/products?search=&limit=100 304 - - 679.160","service":"GramDairy","timestamp":"2026-04-20 12:43:11"}
+{"level":"http","message":"GET /api/v1/categories 304 - - 46.940","service":"GramDairy","timestamp":"2026-04-20 12:43:12"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 143.897","service":"GramDairy","timestamp":"2026-04-20 12:44:01"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 472.737","service":"GramDairy","timestamp":"2026-04-20 12:45:02"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 340.597","service":"GramDairy","timestamp":"2026-04-20 12:46:02"}
+{"level":"http","message":"POST /api/v1/products 201 1573 - 15041.711","service":"GramDairy","timestamp":"2026-04-20 12:46:10"}
+{"level":"http","message":"GET /api/v1/categories 304 - - 70.505","service":"GramDairy","timestamp":"2026-04-20 12:46:10"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 73.708","service":"GramDairy","timestamp":"2026-04-20 12:46:10"}
+{"level":"http","message":"GET /api/v1/products?search=&limit=100 200 2430 - 181.638","service":"GramDairy","timestamp":"2026-04-20 12:46:10"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 223.205","service":"GramDairy","timestamp":"2026-04-20 12:47:10"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 154.285","service":"GramDairy","timestamp":"2026-04-20 12:48:11"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 65.477","service":"GramDairy","timestamp":"2026-04-20 12:49:11"}
+{"level":"http","message":"GET /api/v1/settings 304 - - 235.795","service":"GramDairy","timestamp":"2026-04-20 12:50:11"}
+{"level":"info","message":"[SOCKET] Client disconnected ← 30HqVTAGHsOptnqkAAAF (reason: transport close)","service":"GramDairy","timestamp":"2026-04-20 12:50:34"}
+{"level":"warn","message":"[PROCESS] SIGINT received (Ctrl+C) — shutting down gracefully...","service":"GramDairy","timestamp":"2026-04-20 12:50:57"}
