@@ -1,4 +1,5 @@
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import {
   register,
   verifyUserOtp,
@@ -28,16 +29,33 @@ import {
 
 const router = express.Router();
 
+// ── Auth Rate Limiters ────────────────────────────────────────────────────────
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10,                   // 10 attempts per window
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many attempts. Please try again after 15 minutes.' },
+});
+
+const refreshLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many refresh attempts. Please try again later.' },
+});
+
 // --- Auth Routes (relative to /auth) ---
 const authRouter = express.Router();
-authRouter.post('/register', validate(registerSchema), register);
-authRouter.post('/verify-otp', validate(verifyOtpSchema), verifyUserOtp);
-authRouter.post('/login', validate(loginSchema), login);
-authRouter.post('/refresh-token', refreshAccessToken);
+authRouter.post('/register', authLimiter, validate(registerSchema), register);
+authRouter.post('/verify-otp', authLimiter, validate(verifyOtpSchema), verifyUserOtp);
+authRouter.post('/login', authLimiter, validate(loginSchema), login);
+authRouter.post('/refresh-token', refreshLimiter, refreshAccessToken);
 authRouter.get('/me', protect, getMe);
 authRouter.post('/logout', protect, logout);
-authRouter.post('/forgot-password', forgotPassword);
-authRouter.post('/reset-password', validate(resetPasswordSchema), resetPassword);
+authRouter.post('/forgot-password', authLimiter, forgotPassword);
+authRouter.post('/reset-password', authLimiter, validate(resetPasswordSchema), resetPassword);
 authRouter.get('/profile/stats', protect, getProfileStats);
 authRouter.get('/profile/sessions', protect, getActiveSessions);
 authRouter.delete('/profile/sessions', protect, revokeAllSessions);

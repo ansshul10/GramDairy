@@ -6,8 +6,10 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
+import compression from 'compression';
 import mongoSanitize from 'express-mongo-sanitize';
 import hpp from 'hpp';
+import rateLimit from 'express-rate-limit';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
@@ -46,20 +48,36 @@ connectDB();
 const app = express();
 const httpServer = createServer(app);
 
+// ─── Trust Proxy (required for deployment behind reverse proxy: Render, Railway, etc.) ──
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 // ─── Middlewares ──────────────────────────────────────────────────────────────
-app.use(helmet());        // Security headers
-app.use(mongoSanitize()); // Prevent NoSQL injection
-app.use(hpp());           // Prevent HTTP Parameter Pollution
+app.use(helmet());         // Security headers
+app.use(compression());    // Gzip compression for all responses
+app.use(mongoSanitize());  // Prevent NoSQL injection
+app.use(hpp());            // Prevent HTTP Parameter Pollution
 app.use(morganMiddleware); // HTTP request logger (every route, always)
-app.use(cookieParser());  // Parse cookies
+app.use(cookieParser());   // Parse cookies
 
 const origins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
   : ['http://localhost:5173'];
 
 app.use(cors({ origin: origins, credentials: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// ─── Global Rate Limiter (100 req/15min per IP for general API) ──────────────
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many requests, please try again later.' },
+});
+app.use('/api', globalLimiter);
 
 // ─── Socket.io ────────────────────────────────────────────────────────────────
 const io = new Server(httpServer, {

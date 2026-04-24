@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     VitePWA({
@@ -12,6 +12,8 @@ export default defineConfig({
       includeAssets: ['favicon.png', 'pwa-192x192.png', 'pwa-512x512.png', 'robots.txt'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // Don't cache API requests — let the browser handle them normally
+        navigateFallbackDenylist: [/^\/api/],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -42,13 +44,17 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /.*/i,
-            handler: 'NetworkFirst',
+            // Cache images from Cloudinary or other CDNs
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
+            handler: 'CacheFirst',
             options: {
-              cacheName: 'general-cache',
+              cacheName: 'image-cache',
               expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 7, // 1 week
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
               },
             },
           },
@@ -119,4 +125,24 @@ export default defineConfig({
       },
     },
   },
-})
+  build: {
+    // Generate source maps only for error tracking in production
+    sourcemap: mode === 'production' ? 'hidden' : true,
+    // Split vendor chunks for better caching
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-query': ['@tanstack/react-query'],
+          'vendor-ui': ['lucide-react', 'react-hot-toast'],
+        },
+      },
+    },
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000,
+  },
+  // Drop console.log in production
+  esbuild: mode === 'production' ? {
+    drop: ['console', 'debugger'],
+  } : {},
+}))

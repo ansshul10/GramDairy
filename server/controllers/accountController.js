@@ -419,12 +419,19 @@ export const getProfileStats = asyncHandler(async (req, res) => {
 export const getActiveSessions = asyncHandler(async (req, res) => {
   const sessions = await RefreshToken.find({ user: req.user._id }).sort({ updatedAt: -1 });
   
+  // Hash the current cookie token to compare with stored hashed tokens
+  const crypto = await import('crypto');
+  const currentTokenRaw = req.cookies.refreshToken;
+  const currentTokenHash = currentTokenRaw
+    ? crypto.createHash('sha256').update(currentTokenRaw).digest('hex')
+    : null;
+
   const formattedSessions = sessions.map(s => ({
     id: s._id,
     ip: s.ip || 'Unknown',
     device: s.deviceInfo || 'Unknown Device',
     lastActive: s.updatedAt,
-    isCurrent: req.cookies.refreshToken === s.token,
+    isCurrent: currentTokenHash === s.token,
   }));
 
   return ApiResponse.success(res, 200, 'Sessions retrieved successfully', formattedSessions);

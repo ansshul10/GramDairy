@@ -1,4 +1,5 @@
 import axios from 'axios'
+import useAuthStore from '../store/authStore'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -27,7 +28,11 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
     
-    if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url.includes('/auth/login') && !originalRequest.url.includes('/auth/refresh-token')) {
+    // Skip refresh logic for login, refresh-token, and register endpoints
+    const skipUrls = ['/auth/login', '/auth/refresh-token', '/auth/register', '/auth/verify-otp']
+    const shouldSkip = skipUrls.some(url => originalRequest.url?.includes(url))
+
+    if (error.response?.status === 401 && !originalRequest._retry && !shouldSkip) {
       
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -45,13 +50,17 @@ api.interceptors.response.use(
       isRefreshing = true
       
       try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/auth/refresh-token`, {}, { withCredentials: true })
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
+          {},
+          { withCredentials: true }
+        )
         processQueue(null)
         return api(originalRequest)
       } catch (refreshError) {
         processQueue(refreshError, null)
-        // Clear auth state if refresh fails (optional, but good practice)
-        // useAuthStore.getState().logout()
+        // Clear auth state when refresh token is invalid/expired
+        useAuthStore.getState().logout()
         return Promise.reject(refreshError)
       } finally {
         isRefreshing = false

@@ -72,15 +72,11 @@ import authService from './services/authService'
 function App() {
   // PWA Service Worker registration
   useRegisterSW({
-    onRegistered(r) {
-      console.log('SW Registered: ' + r)
-    },
-    onRegisterError(error) {
-      console.log('SW registration error', error)
-    }
+    onRegistered() {},
+    onRegisterError() {}
   })
 
-  const { setUser, logout } = useAuthStore()
+  const { setUser, setLoading, logout } = useAuthStore()
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -88,15 +84,19 @@ function App() {
         const response = await authService.getMe()
         if (response.success) {
           setUser(response.data.user)
+        } else {
+          setLoading(false)
         }
       } catch (error) {
-        console.error('Session restoration failed:', error.message)
-        logout()
+        // If refresh also failed, the axios interceptor already calls logout()
+        // Just ensure loading is set to false
+        setLoading(false)
       }
     }
 
     checkAuth()
-  }, [setUser, logout])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const location = useLocation()
 
