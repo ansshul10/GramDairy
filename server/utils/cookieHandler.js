@@ -10,7 +10,7 @@ const getCookieOptions = () => {
   return {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? 'none' : 'lax',
+    sameSite: 'lax', // 'lax' works for both dev and production (via Vercel proxy)
     path: '/',
   };
 };
